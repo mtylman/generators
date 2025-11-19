@@ -139,25 +139,21 @@ function generateIbanPlMock() {
     Array.from({ length: 24 }, () => randInt(0,9)).join("");
 }
 
-// ======== IBAN PL – pełny, prawidłowy algorytm Mod97 ========
-
+// ======== IBAN PL – poprawna długość (28 znaków) i checksum Mod-97 ========
 function generateIbanPl() {
-
-  // 1) wygeneruj losowe 26 cyfr NRB
-  let nrb = "";
-  for (let i = 0; i < 26; i++) {
-    nrb += randInt(0, 9);
+  // 1) wygeneruj losowe 24 cyfry (BBAN dla PL)
+  let bban = "";
+  for (let i = 0; i < 24; i++) {
+    bban += randInt(0, 9);
   }
 
-  // 2) zamień PL + "00" na wartości liczbowe zgodnie z ISO:
-  // P = 25, L = 21  → "2521"
-  const country = "PL";
-  const countryConverted = "2521"; // P=25, L=21
+  // 2) "PL00" -> zamiana liter na liczby: P=25, L=21 -> "2521"
+  const countryConverted = "2521"; // PL
 
-  // 3) utwórz ciąg do obliczenia
-  const rearranged = nrb + countryConverted + "00";
+  // 3) utwórz ciąg do obliczenia: BBAN + PL + "00" -> cyfry
+  const rearranged = bban + countryConverted + "00";
 
-  // 4) oblicz mod 97 (z dużymi liczbami – liczymy w kawałkach)
+  // 4) funkcja do liczenia mod 97 dla bardzo długiego stringa
   function mod97(numberStr) {
     let remainder = 0;
     for (let i = 0; i < numberStr.length; i++) {
@@ -168,11 +164,11 @@ function generateIbanPl() {
 
   const remainder = mod97(rearranged);
 
-  // 5) suma kontrolna = 98 - remainder
+  // 5) checksum = 98 - remainder, zapisany jako 2 cyfry
   const checksum = String(98 - remainder).padStart(2, "0");
 
-  // 6) gotowy IBAN
-  return `PL${checksum}${nrb}`;
+  // 6) gotowy IBAN: 2 litery + 2 cyfry + 24 cyfry = 28 znaków
+  return `PL${checksum}${bban}`;
 }
 
 
