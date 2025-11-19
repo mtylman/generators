@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generatory numerów testowych</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="badge">
+        <div class="badge-dot"></div>
+        Generatory testowych identyfikatorów
+      </div>
+      <h1>Pakiet generatorów numerów ⚙️</h1>
+      <p>
+        Wszystkie numery generowane są <strong>losowo</strong> i przeznaczone są
+        wyłącznie do testów, mocków i przykładów. Nie reprezentują realnych osób,
+        firm ani kont.
+      </p>
+
+      <div class="warning">
+        <span>⚠</span>
+        <span>Nie używaj tych numerów w prawdziwych dokumentach ani przelewach.</span>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <!-- ===================== PESEL ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">PESEL <span class="pill">osoba fizyczna</span></div>
+        </div>
+
+        <p class="card-desc">Generator PESEL z wyborem płci i wieku.</p>
+
+        <div class="controls">
+          <div class="field">
+            <span>Płeć</span>
+            <select id="peselGender">
+              <option value="any">Dowolna</option>
+              <option value="male">Mężczyzna</option>
+              <option value="female">Kobieta</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <span>Wiek</span>
+            <select id="peselAge">
+              <option value="any">Dowolny</option>
+              <option value="0-17">0–17</option>
+              <option value="18-30">18–30</option>
+              <option value="31-50">31–50</option>
+              <option value="51-80">51–80</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnPesel">Generuj PESEL</button>
+          <button class="btn-secondary" data-copy="peselResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="peselResult">—</div>
+          <button class="copy-inline" data-copy="peselResult">📋</button>
+        </div>
+      </section>
+
+      <!-- ===================== NIP ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">NIP <span class="pill">10 cyfr</span></div>
+        </div>
+
+        <p class="card-desc">Generator testowego numeru NIP.</p>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnNip">Generuj NIP</button>
+          <button class="btn-secondary" data-copy="nipResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="nipResult">—</div>
+          <button class="copy-inline" data-copy="nipResult">📋</button>
+        </div>
+      </section>
+
+      <!-- ===================== REGON ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">REGON <span class="pill">9 / 14 cyfr</span></div>
+        </div>
+
+        <p class="card-desc">Generator numerów REGON 9 i 14 cyfr.</p>
+
+        <div class="controls">
+          <div class="field">
+            <span>Długość</span>
+            <select id="regonLength">
+              <option value="9">9 cyfr</option>
+              <option value="14">14 cyfr</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnRegon">Generuj REGON</button>
+          <button class="btn-secondary" data-copy="regonResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="regonResult">—</div>
+          <button class="copy-inline" data-copy="regonResult">📋</button>
+        </div>
+      </section>
+
+      <!-- ===================== VIN ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">VIN <span class="pill">17 znaków</span></div>
+        </div>
+
+        <p class="card-desc">Losowy VIN (bez I/O/Q).</p>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnVin">Generuj VIN</button>
+          <button class="btn-secondary" data-copy="vinResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="vinResult">—</div>
+          <button class="copy-inline" data-copy="vinResult">📋</button>
+        </div>
+      </section>
+
+      <!-- ===================== Dowód osobisty ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">Dowód osobisty <span class="pill">seria + numer</span></div>
+        </div>
+
+        <p class="card-desc">3 litery + 6 cyfr z cyfrą kontrolną.</p>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnId">Generuj numer</button>
+          <button class="btn-secondary" data-copy="idResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="idResult">—</div>
+          <button class="copy-inline" data-copy="idResult">📋</button>
+        </div>
+      </section>
+
+      <!-- ===================== IBAN ===================== -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">IBAN (PL) <span class="pill">testowy</span></div>
+        </div>
+
+        <p class="card-desc">Generator PL + 26 cyfr</p>
+
+        <div class="controls">
+          <button class="btn-primary" id="btnIban">Generuj IBAN</button>
+          <button class="btn-secondary" data-copy="ibanResult">Kopiuj</button>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label">Wynik</span>
+          <div class="result-value empty" id="ibanResult">—</div>
+          <button class="copy-inline" data-copy="ibanResult">📋</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+<footer class="page-footer sticky">
+  © 2025 Marcin Tylman — Wszystkie prawa zastrzeżone.
+</footer>
+</body>
+
+</html>
