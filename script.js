@@ -1,3 +1,22 @@
+// ======== COOKIES HELPERS ========
+function setCookie(name, value, days = 365) {
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+  const prefix = name + "=";
+  const cookies = document.cookie.split(";");
+  for (let c of cookies) {
+    c = c.trim();
+    if (c.indexOf(prefix) === 0) {
+      return decodeURIComponent(c.substring(prefix.length, c.length));
+    }
+  }
+  return null;
+}
+
 // ======== Helper ========
 function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -207,4 +226,41 @@ document.addEventListener("DOMContentLoaded", () => {
       copyFromElement(btn.getAttribute("data-copy"))
     );
   });
+  // Przy starcie — wczytaj zapisane ustawienia
+restoreUserSettings();
+
+// Podłącz zapis ustawień w cookies
+attachSettingsListeners();
+
+// Automatycznie generuj WSZYSTKIE numery przy wejściu
+setResult("peselResult", generatePesel());
+setResult("nipResult", generateNip());
+setResult("regonResult",
+  document.getElementById("regonLength").value === "14"
+    ? generateRegon14()
+    : generateRegon9()
+);
+setResult("vinResult", generateVin());
+setResult("idResult", generatePolishIdNumber());
+setResult("ibanResult", generateIbanPl());
 });
+function restoreUserSettings() {
+  const savedGender = getCookie("peselGender");
+  const savedAge = getCookie("peselAge");
+  const savedRegonLen = getCookie("regonLength");
+
+  if (savedGender) document.getElementById("peselGender").value = savedGender;
+  if (savedAge) document.getElementById("peselAge").value = savedAge;
+  if (savedRegonLen) document.getElementById("regonLength").value = savedRegonLen;
+}
+function attachSettingsListeners() {
+  document.getElementById("peselGender").addEventListener("change", e =>
+    setCookie("peselGender", e.target.value)
+  );
+  document.getElementById("peselAge").addEventListener("change", e =>
+    setCookie("peselAge", e.target.value)
+  );
+  document.getElementById("regonLength").addEventListener("change", e =>
+    setCookie("regonLength", e.target.value)
+  );
+}
